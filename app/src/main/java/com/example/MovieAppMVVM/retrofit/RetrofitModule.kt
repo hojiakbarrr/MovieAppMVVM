@@ -1,4 +1,4 @@
-package com.example.MovieAppMVVM.di
+package com.example.MovieAppMVVM.retrofit
 
 import com.example.MovieAppMVVM.api.ApiService
 import com.example.MovieAppMVVM.utils.Constants
