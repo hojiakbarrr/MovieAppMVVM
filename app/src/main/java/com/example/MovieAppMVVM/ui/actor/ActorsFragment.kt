@@ -1,4 +1,4 @@
-package com.example.MovieAppMVVM.ui
+package com.example.MovieAppMVVM.ui.actor
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,68 +8,57 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.MovieAppMVVM.adapter.MoviePagedAdapter
-import com.example.MovieAppMVVM.databinding.MoviesFragmentBinding
-import com.example.MovieAppMVVM.paging.ResponseType
+import com.example.MovieAppMVVM.R
+import com.example.MovieAppMVVM.adapter.ActorPagedAdapter
+import com.example.MovieAppMVVM.databinding.ActorsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
-class MoviesFragment : Fragment() {
+class ActorsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MoviesFragment()
+        fun newInstance() = ActorsFragment()
     }
 
-    private lateinit var  viewModel: MoviesViewModel
-    private lateinit var binding: MoviesFragmentBinding
-    private lateinit var mAdapter: MoviePagedAdapter
+    private lateinit var viewModel: ActorsViewModel
+    private lateinit var binding: ActorsFragmentBinding
+    private lateinit var mAdapter: ActorPagedAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = MoviesFragmentBinding.inflate(layoutInflater, container, false)
-
-
-        binding.button2.setOnClickListener {
-            viewModel.getResponse(ResponseType.UPCOMING)
-        }
-
+        binding = ActorsFragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
-    private fun loadingData() {
+    private fun loadingInfo() {
         lifecycleScope.launch {
-            viewModel.movieFlow.collect {pagingData ->
+            viewModel.actorFlow.collect {pagingData ->
                 mAdapter.submitData(pagingData)
             }
         }
     }
 
-    private fun setUpRv() {
-        mAdapter = MoviePagedAdapter()
-        binding.recyclerView.apply {
+    private fun settingRec() {
+        mAdapter = ActorPagedAdapter()
+        binding.recPersons.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = mAdapter
             setHasFixedSize(true)
-
-
         }
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MoviesViewModel::class.java)
-
-        setUpRv()
-        loadingData()
-//        Log.d("testLogs", "OnResponse Success ${loadingData()}")
-
-
+        viewModel = ViewModelProvider(this).get(ActorsViewModel::class.java)
         // TODO: Use the ViewModel
+        settingRec()
+        loadingInfo()
     }
 
 }

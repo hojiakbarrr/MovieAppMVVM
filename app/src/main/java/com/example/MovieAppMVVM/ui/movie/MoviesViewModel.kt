@@ -1,9 +1,9 @@
-package com.example.MovieAppMVVM.ui
+package com.example.MovieAppMVVM.ui.movie
 
 import androidx.lifecycle.*
 import androidx.paging.*
 import com.example.MovieAppMVVM.api.ApiService
-import com.example.MovieAppMVVM.models.MovieApi
+import com.example.MovieAppMVVM.models.films.Movie
 import com.example.MovieAppMVVM.paging.MoviePagingSource
 import com.example.MovieAppMVVM.paging.ResponseType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,14 +18,14 @@ class MoviesViewModel @Inject constructor(private val apiService: ApiService) : 
 
     private val _responseType: MutableLiveData<ResponseType> = MutableLiveData()
 
-    val movieFlow: Flow<PagingData<MovieApi>> by lazy {
+    val movieFlow: Flow<PagingData<Movie>> by lazy {
         _responseType.asFlow()
-            .flatMapLatest<ResponseType?, PagingData<MovieApi>> {
+            .flatMapLatest<ResponseType?, PagingData<Movie>> {
                 createPagerMovies()
             }.cachedIn(viewModelScope)
     }
 
-    fun createPagerMovies(): Flow<PagingData<MovieApi>> =
+    fun createPagerMovies(): Flow<PagingData<Movie>> =
         Pager(
             config = PagingConfig(
                 pageSize = 2,
@@ -33,7 +33,7 @@ class MoviesViewModel @Inject constructor(private val apiService: ApiService) : 
             ),
             pagingSourceFactory = {
                 MoviePagingSource(apiService = apiService,
-                    responseType = _responseType.value!!)
+                    responseType = _responseType.value!!, query = "")
             }
         ).flow
 

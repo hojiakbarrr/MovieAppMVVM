@@ -7,23 +7,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.MovieAppMVVM.adapter.MoviePagedAdapter.MyViewHolder
-import com.example.MovieAppMVVM.databinding.UserItemBinding
-import com.example.MovieAppMVVM.models.MovieApi
+import com.example.MovieAppMVVM.databinding.MovieItemBinding
+import com.example.MovieAppMVVM.models.films.Movie
 
-class MoviePagedAdapter : PagingDataAdapter<MovieApi, MyViewHolder>(diffCallback = diffCallback) {
+class MoviePagedAdapter : PagingDataAdapter<Movie, MyViewHolder>(diffCallback = diffCallback) {
 
 
-    inner class MyViewHolder(val binding: UserItemBinding) :
+    inner class MyViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
 
     companion object {
-        val diffCallback = object : DiffUtil.ItemCallback<MovieApi>() {
-            override fun areItemsTheSame(oldItem: MovieApi, newItem: MovieApi): Boolean {
+        val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: MovieApi, newItem: MovieApi): Boolean {
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
                 return oldItem.id == newItem.id
             }
 
@@ -46,7 +46,7 @@ class MoviePagedAdapter : PagingDataAdapter<MovieApi, MyViewHolder>(diffCallback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(UserItemBinding.inflate(LayoutInflater.from(parent.context),
+        return MyViewHolder(MovieItemBinding.inflate(LayoutInflater.from(parent.context),
             parent,
             false))
     }

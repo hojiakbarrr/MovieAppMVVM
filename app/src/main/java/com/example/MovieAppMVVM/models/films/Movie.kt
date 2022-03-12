@@ -1,8 +1,8 @@
-package com.example.MovieAppMVVM.models
+package com.example.MovieAppMVVM.models.films
 
 import java.io.Serializable
 
-data class MovieApi(
+data class Movie(
     val adult: Boolean,
     val backdrop_path: String,
     val id: Int,

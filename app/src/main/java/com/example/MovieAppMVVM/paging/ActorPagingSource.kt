@@ -3,39 +3,34 @@ package com.example.MovieAppMVVM.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.MovieAppMVVM.api.ApiService
-import com.example.MovieAppMVVM.models.films.Movie
+import com.example.MovieAppMVVM.models.person.Actor
 import com.example.MovieAppMVVM.utils.Constants
 import retrofit2.HttpException
-import retrofit2.http.Query
 
-enum class ResponseType{
-    POPULAR,UPCOMING,TOP_RATED,NOW_PLAYING,SEARCH_MOVIE
+enum class ResponseTypeActor{
+   POPULAR_ACTORS
 }
 
-@Suppress("IMPLICIT_CAST_TO_ANY")
-class MoviePagingSource(
+class ActorPagingSource(
     private val apiService: ApiService,
-    private val responseType: ResponseType,
+    private val responseType: ResponseTypeActor,
     private val query: String,
-) : PagingSource<Int, Movie>() {
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+) : PagingSource<Int, Actor>() {
+    override fun getRefreshKey(state: PagingState<Int, Actor>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val page = state.closestPageToPosition(anchorPosition) ?: return null
         return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
     }
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Actor> {
         val page: Int = params.key ?: 1
         val pageSize: Int = params.loadSize.coerceAtMost(20)
         return try {
 
             val response = when(responseType){
-                ResponseType.POPULAR -> apiService.getPopularMovie(Constants.API_KEY,page)
-                ResponseType.UPCOMING -> apiService.getUpcomingMovies(Constants.API_KEY,page)
-                ResponseType.TOP_RATED -> apiService.getTopRatedMovies(Constants.API_KEY,page)
-                ResponseType.NOW_PLAYING -> apiService.getNowPlayingMovies(Constants.API_KEY,page)
+                ResponseTypeActor.POPULAR_ACTORS -> apiService.getPerson(Constants.API_KEY,Constants.RUSSIA,page)
                 else -> {
-                    apiService.getSearchMovie(Constants.API_KEY,query)
-                }
+                    apiService.getSearchActor(Constants.API_KEY,Constants.RUSSIA,query)                }
             }
 
             if (response.isSuccessful) {
