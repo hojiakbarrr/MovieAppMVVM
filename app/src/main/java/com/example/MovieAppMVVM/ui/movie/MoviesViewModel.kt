@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-
 class MoviesViewModel @Inject constructor(private val apiService: ApiService) : ViewModel() {
 
     private val _responseType: MutableLiveData<ResponseType> = MutableLiveData()

@@ -1,7 +1,10 @@
 package com.example.MovieAppMVVM.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,12 +12,14 @@ import coil.load
 import com.example.MovieAppMVVM.adapter.MoviePagedAdapter.MyViewHolder
 import com.example.MovieAppMVVM.databinding.MovieItemBinding
 import com.example.MovieAppMVVM.models.films.Movie
+import com.example.MovieAppMVVM.ui.movie_details.MovieDetailsActivity
 
-class MoviePagedAdapter : PagingDataAdapter<Movie, MyViewHolder>(diffCallback = diffCallback) {
+class MoviePagedAdapter (val mItemclickListener: ItemClickListener): PagingDataAdapter<Movie, MyViewHolder>(diffCallback = diffCallback) {
 
 
     inner class MyViewHolder(val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
 
 
     companion object {
@@ -40,8 +45,11 @@ class MoviePagedAdapter : PagingDataAdapter<Movie, MyViewHolder>(diffCallback = 
                 crossfade(true)
                 crossfade(1000)
             }
-
         }
+        holder.itemView.setOnClickListener{
+            currentItem?.let { it1 -> mItemclickListener.onItemClick(it1.id) }
+        }
+
 
     }
 
@@ -51,4 +59,14 @@ class MoviePagedAdapter : PagingDataAdapter<Movie, MyViewHolder>(diffCallback = 
             false))
     }
 
+
+    fun alert(context: Context, text: String) {
+        val intent = Intent(context, MovieDetailsActivity::class.java)
+        intent.putExtra("text", text)
+        context.startActivity(intent)
+    }
+}
+
+interface ItemClickListener {
+    fun onItemClick(id: Int)
 }

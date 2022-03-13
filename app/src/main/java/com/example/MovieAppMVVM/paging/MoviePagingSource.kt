@@ -4,12 +4,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.MovieAppMVVM.api.ApiService
 import com.example.MovieAppMVVM.models.films.Movie
+import com.example.MovieAppMVVM.repository.MovieRepository
 import com.example.MovieAppMVVM.utils.Constants
 import retrofit2.HttpException
-import retrofit2.http.Query
 
 enum class ResponseType{
-    POPULAR,UPCOMING,TOP_RATED,NOW_PLAYING,SEARCH_MOVIE
+    POPULAR,UPCOMING,TOP_RATED,NOW_PLAYING,DETAILS
 }
 
 @Suppress("IMPLICIT_CAST_TO_ANY")

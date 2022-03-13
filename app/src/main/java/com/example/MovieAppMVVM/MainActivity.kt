@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+                tab?.icon!!.alpha = 250
+
             }
 
         })

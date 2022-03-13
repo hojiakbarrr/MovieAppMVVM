@@ -1,5 +1,7 @@
 package com.example.MovieAppMVVM.api
 
+import androidx.lifecycle.MutableLiveData
+import com.example.MovieAppMVVM.models.filmDetail.MovieDetail
 import com.example.MovieAppMVVM.models.films.ResponseMovie
 import com.example.MovieAppMVVM.models.person.ResponseActor
 import com.example.MovieAppMVVM.utils.Constants
@@ -36,18 +38,18 @@ interface ApiService {
     ): Response<ResponseMovie>
 
     @GET(Constants.MOVIE_DETAILS)
-    fun getMoviesDetails(
+    suspend fun getMoviesDetails(
         @Path("movie_id") movieId: Int,
-        @Query("language")language:String,
-        @Query("api_key") sort: String,
-    ): Response<ResponseMovie>
+        @Query("language") language:String,
+        @Query("api_key") apikey: String,
+    ): Response<MovieDetail>
 
     @GET(Constants.MOVIE_TRAILERS)
     fun getMovieTrailer(
-        @Path("movie_id") id: Int,
+        @Path("movie_id") id: MutableLiveData<Int>,
         @Query("language") language: String,
-        @Query("api_key") sort: String
-    ): Response<ResponseMovie>
+        @Query("api_key") apikey: String
+    ): Call<ResponseMovie>
 
     @GET(Constants.SEARCH_MOVIE)
     suspend fun getSearchMovie(
