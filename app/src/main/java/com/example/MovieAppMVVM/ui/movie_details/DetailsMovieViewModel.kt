@@ -16,18 +16,12 @@ import javax.inject.Inject
     private val _detail: MutableLiveData<MovieDetail> = MutableLiveData()
     val detail: LiveData<MovieDetail> = _detail
 
-
-
-
     fun moviedetail(id: Int) = viewModelScope.launch {
         var response = repository.MovieDetail(id,Constants.RUSSIA,Constants.API_KEY)
 
-
-        Log.d("testing", "id $response")
-
         if (response.isSuccessful) {
             _detail.value = response.body()
-            Log.d("testing", "id $_detail")
+//            Log.d("testing", "id $_detail")
         }
 
     }

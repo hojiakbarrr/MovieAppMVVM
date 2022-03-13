@@ -1,5 +1,6 @@
 package com.example.MovieAppMVVM.ui.actor
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,14 +11,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.MovieAppMVVM.R
 import com.example.MovieAppMVVM.adapter.ActorPagedAdapter
+import com.example.MovieAppMVVM.adapter.ItemlickListener
 import com.example.MovieAppMVVM.databinding.ActorsFragmentBinding
+import com.example.MovieAppMVVM.ui.actor_detail.ActorDetailActivity
+import com.example.MovieAppMVVM.ui.movie_details.MovieDetailsActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
+@DelicateCoroutinesApi
 @AndroidEntryPoint
-class ActorsFragment : Fragment() {
+class ActorsFragment : Fragment(), ItemlickListener {
 
     companion object {
         fun newInstance() = ActorsFragment()
@@ -44,7 +50,7 @@ class ActorsFragment : Fragment() {
     }
 
     private fun settingRec() {
-        mAdapter = ActorPagedAdapter()
+        mAdapter = ActorPagedAdapter(this)
         binding.recPersons.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = mAdapter
@@ -60,5 +66,10 @@ class ActorsFragment : Fragment() {
         settingRec()
         loadingInfo()
     }
+
+    override fun onItemClick(id: Int) {
+        val intent = Intent(requireContext(), ActorDetailActivity::class.java)
+        intent.putExtra("idi", id)
+        startActivity(intent)    }
 
 }

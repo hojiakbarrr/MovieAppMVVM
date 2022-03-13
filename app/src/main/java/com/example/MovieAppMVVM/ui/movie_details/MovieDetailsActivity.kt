@@ -34,11 +34,23 @@ class MovieDetailsActivity : AppCompatActivity() {
         val id = intent.getIntExtra("id", 0)
         viewModel.moviedetail(id)
 
+
         viewModel.detail.observe(this){
             showDetail(it)
         }
-//        showDetail()
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     private fun showDetail(movie: MovieDetail) {
         binding.apply {

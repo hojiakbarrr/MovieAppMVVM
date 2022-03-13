@@ -1,6 +1,7 @@
 package com.example.MovieAppMVVM.api
 
 import androidx.lifecycle.MutableLiveData
+import com.example.MovieAppMVVM.models.actorDetail.Actor_detail
 import com.example.MovieAppMVVM.models.filmDetail.MovieDetail
 import com.example.MovieAppMVVM.models.films.ResponseMovie
 import com.example.MovieAppMVVM.models.person.ResponseActor
@@ -72,11 +73,11 @@ interface ApiService {
     ): Response<ResponseActor>
 
     @GET(Constants.ACTORS_DETAILS)
-    fun getActorsDetails(
+    suspend fun getActorsDetails(
         @Path("person_id") personId: Int,
         @Query("language")language:String,
-        @Query("api_key") sort: String,
-    ): Response<ResponseActor>
+        @Query("api_key") api_key: String,
+    ): Response<Actor_detail>
 
 
 }

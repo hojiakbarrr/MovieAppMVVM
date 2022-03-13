@@ -12,7 +12,7 @@ import com.example.MovieAppMVVM.databinding.MovieItemBinding
 import com.example.MovieAppMVVM.models.films.Movie
 import com.example.MovieAppMVVM.models.person.Actor
 
-class ActorPagedAdapter : PagingDataAdapter<Actor, ActorViewHold>(ActorCallback) {
+class ActorPagedAdapter(val mItemclickListener: ItemlickListener): PagingDataAdapter<Actor, ActorViewHold>(ActorCallback) {
 
     inner class ActorViewHold(val binding: ActorItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -38,6 +38,9 @@ class ActorPagedAdapter : PagingDataAdapter<Actor, ActorViewHold>(ActorCallback)
             fotoActor.load("https://image.tmdb.org/t/p/w500" + imageLink)
             nameActor.text = currentItem!!.name
         }
+        holder.itemView.setOnClickListener{
+            currentItem?.let { it1 -> mItemclickListener.onItemClick(it1.id) }
+        }
 
     }
 
@@ -48,4 +51,8 @@ class ActorPagedAdapter : PagingDataAdapter<Actor, ActorViewHold>(ActorCallback)
     }
 
 
+}
+
+interface ItemlickListener {
+    fun onItemClick(id: Int)
 }
