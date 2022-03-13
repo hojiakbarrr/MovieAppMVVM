@@ -7,6 +7,7 @@ import androidx.lifecycle.observe
 import com.example.MovieAppMVVM.adapter.AdapterTrailer
 import com.example.MovieAppMVVM.databinding.ActivityMovieDetailsBinding
 import com.example.MovieAppMVVM.models.filmDetail.MovieDetail
+import com.example.MovieAppMVVM.models.trailer.TrailerResponse
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -33,23 +34,24 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         val id = intent.getIntExtra("id", 0)
         viewModel.moviedetail(id)
+        viewModel.getTrailer(id)
 
 
         viewModel.detail.observe(this){
             showDetail(it)
         }
+        viewModel.detailTrailer.observe(this){
+            showTrailer(it)
+        }
     }
 
+    private fun showTrailer(it: TrailerResponse) {
+        binding.apply {
+            rcTrailer.adapter = trailerAdapter
+            trailerAdapter.trailerList = it.trailerList
 
-
-
-
-
-
-
-
-
-
+        }
+    }
 
 
     private fun showDetail(movie: MovieDetail) {

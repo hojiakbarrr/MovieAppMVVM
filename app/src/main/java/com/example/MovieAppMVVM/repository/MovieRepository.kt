@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.MovieAppMVVM.api.ApiService
 import com.example.MovieAppMVVM.models.actorDetail.Actor_detail
 import com.example.MovieAppMVVM.models.filmDetail.MovieDetail
+import com.example.MovieAppMVVM.models.trailer.TrailerResponse
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -13,6 +14,8 @@ class MovieRepository @Inject constructor(private val api: ApiService){
 
 
     suspend fun ActorDetail(id: Int, ru: String, key: String): Response<Actor_detail> = api.getActorsDetails(id,ru,key)
+
+    suspend fun GetTrailer(id: Int, ru: String, key: String): Response<TrailerResponse> = api.getMovieTrailer(id,ru,key)
 
 
 }

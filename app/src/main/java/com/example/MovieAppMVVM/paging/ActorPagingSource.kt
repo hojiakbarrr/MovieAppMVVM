@@ -30,7 +30,8 @@ class ActorPagingSource(
             val response = when(responseType){
                 ResponseTypeActor.POPULAR_ACTORS -> apiService.getPerson(Constants.API_KEY,Constants.RUSSIA,page)
                 else -> {
-                    apiService.getSearchActor(Constants.API_KEY,Constants.RUSSIA,query)                }
+                    apiService.getSearchActor(Constants.API_KEY,Constants.RUSSIA,query)
+                }
             }
 
             if (response.isSuccessful) {

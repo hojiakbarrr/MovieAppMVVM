@@ -40,6 +40,7 @@ class MoviesFragment : Fragment(), ItemClickListener {
             viewModel.getResponse(ResponseType.UPCOMING)
         }
 
+
         return binding.root
     }
 

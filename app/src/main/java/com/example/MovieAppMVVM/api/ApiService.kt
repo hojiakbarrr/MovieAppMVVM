@@ -5,6 +5,7 @@ import com.example.MovieAppMVVM.models.actorDetail.Actor_detail
 import com.example.MovieAppMVVM.models.filmDetail.MovieDetail
 import com.example.MovieAppMVVM.models.films.ResponseMovie
 import com.example.MovieAppMVVM.models.person.ResponseActor
+import com.example.MovieAppMVVM.models.trailer.TrailerResponse
 import com.example.MovieAppMVVM.utils.Constants
 import retrofit2.Call
 import retrofit2.Response
@@ -46,11 +47,11 @@ interface ApiService {
     ): Response<MovieDetail>
 
     @GET(Constants.MOVIE_TRAILERS)
-    fun getMovieTrailer(
-        @Path("movie_id") id: MutableLiveData<Int>,
+    suspend fun getMovieTrailer(
+        @Path("movie_id") id: Int,
         @Query("language") language: String,
         @Query("api_key") apikey: String
-    ): Call<ResponseMovie>
+    ): Response<TrailerResponse>
 
     @GET(Constants.SEARCH_MOVIE)
     suspend fun getSearchMovie(
