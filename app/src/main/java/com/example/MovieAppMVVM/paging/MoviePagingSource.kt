@@ -6,10 +6,11 @@ import com.example.MovieAppMVVM.api.ApiService
 import com.example.MovieAppMVVM.models.films.Movie
 import com.example.MovieAppMVVM.repository.MovieRepository
 import com.example.MovieAppMVVM.utils.Constants
+import com.example.MovieAppMVVM.utils.Constants.API_KEY
 import retrofit2.HttpException
 
 enum class ResponseType{
-    POPULAR,UPCOMING,TOP_RATED,NOW_PLAYING,DETAILS
+    POPULAR,UPCOMING,TOP_RATED,NOW_PLAYING,SEARCH
 }
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -33,9 +34,7 @@ class MoviePagingSource(
                 ResponseType.UPCOMING -> apiService.getUpcomingMovies(Constants.API_KEY,page)
                 ResponseType.TOP_RATED -> apiService.getTopRatedMovies(Constants.API_KEY,page)
                 ResponseType.NOW_PLAYING -> apiService.getNowPlayingMovies(Constants.API_KEY,page)
-                else -> {
-                    apiService.getSearchMovie(Constants.API_KEY,query)
-                }
+                ResponseType.SEARCH -> apiService.getSearchMovie(API_KEY,query)
             }
 
             if (response.isSuccessful) {
