@@ -13,6 +13,7 @@ import com.example.MovieAppMVVM.R
 import com.example.MovieAppMVVM.adapter.ActorPagedAdapter
 import com.example.MovieAppMVVM.adapter.ItemlickListener
 import com.example.MovieAppMVVM.databinding.ActorsFragmentBinding
+import com.example.MovieAppMVVM.paging.ResponseTypeActor
 import com.example.MovieAppMVVM.ui.actor_detail.ActorDetailActivity
 import com.example.MovieAppMVVM.ui.movie_details.MovieDetailsActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,8 +44,10 @@ class ActorsFragment : Fragment(), ItemlickListener {
 
     private fun loadingInfo() {
         lifecycleScope.launch {
-            viewModel.actorFlow.collect {pagingData ->
+            viewModel.actorFlow.collect { pagingData ->
+                visible()
                 mAdapter.submitData(pagingData)
+                visible()
             }
         }
     }
@@ -63,13 +66,45 @@ class ActorsFragment : Fragment(), ItemlickListener {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ActorsViewModel::class.java)
         // TODO: Use the ViewModel
+        invisible()
+        search()
         settingRec()
         loadingInfo()
+    }
+
+    private fun invisible() {
+        binding.apply {
+            progress.visibility = View.VISIBLE
+            edittext.visibility = View.INVISIBLE
+            recPersons.visibility = View.INVISIBLE
+            findActors.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun visible() {
+        binding.apply {
+            progress.visibility = View.INVISIBLE
+            edittext.visibility = View.VISIBLE
+            recPersons.visibility = View.VISIBLE
+            findActors.visibility = View.VISIBLE
+
+        }
+    }
+
+    private fun search() {
+        binding.apply {
+            findActors.setOnClickListener {
+                val text = edittext.text
+                viewModel.getSearch(text.toString())
+                viewModel.getResponse(ResponseTypeActor.SEARCH_ACTOR)
+            }
+        }
     }
 
     override fun onItemClick(id: Int) {
         val intent = Intent(requireContext(), ActorDetailActivity::class.java)
         intent.putExtra("idi", id)
-        startActivity(intent)    }
+        startActivity(intent)
+    }
 
 }

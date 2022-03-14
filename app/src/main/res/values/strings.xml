@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MovieAppMVVM</string>
+
+    <string-array name="months">
+        <item>Жанры</item>
+        <item>Предстоящий</item>
+        <item>Рейтинговые</item>
+        <item>Самые популярные</item>
+        <item>Сейчас смотрят</item>
+
+    </string-array>
+
 </resources>

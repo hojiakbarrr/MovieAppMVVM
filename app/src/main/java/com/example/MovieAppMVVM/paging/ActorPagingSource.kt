@@ -8,7 +8,7 @@ import com.example.MovieAppMVVM.utils.Constants
 import retrofit2.HttpException
 
 enum class ResponseTypeActor{
-   POPULAR_ACTORS
+   POPULAR_ACTORS,SEARCH_ACTOR
 }
 
 class ActorPagingSource(
@@ -29,9 +29,8 @@ class ActorPagingSource(
 
             val response = when(responseType){
                 ResponseTypeActor.POPULAR_ACTORS -> apiService.getPerson(Constants.API_KEY,Constants.RUSSIA,page)
-                else -> {
-                    apiService.getSearchActor(Constants.API_KEY,Constants.RUSSIA,query)
-                }
+                ResponseTypeActor.SEARCH_ACTOR -> apiService.getSearchActor(Constants.API_KEY,Constants.RUSSIA,query)
+
             }
 
             if (response.isSuccessful) {

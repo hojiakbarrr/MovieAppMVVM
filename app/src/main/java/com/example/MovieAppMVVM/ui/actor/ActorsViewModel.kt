@@ -10,6 +10,7 @@ import com.example.MovieAppMVVM.models.filmDetail.MovieDetail
 import com.example.MovieAppMVVM.models.person.Actor
 import com.example.MovieAppMVVM.models.trailer.TrailerResponse
 import com.example.MovieAppMVVM.paging.ActorPagingSource
+import com.example.MovieAppMVVM.paging.ResponseType
 import com.example.MovieAppMVVM.paging.ResponseTypeActor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class ActorsViewModel @Inject constructor(private val apiService: ApiService) : ViewModel() {
 
     private val responsetype: MutableLiveData<ResponseTypeActor> = MutableLiveData()
+    private val _text: MutableLiveData<String> = MutableLiveData()
 
 
 
@@ -40,20 +42,31 @@ class ActorsViewModel @Inject constructor(private val apiService: ApiService) : 
             pagingSourceFactory = {
                 ActorPagingSource(
                     apiService = apiService,
-                    responseType = responsetype.value!!, query = ""
+                    responseType = responsetype.value!!, query = _text.value!!
                     )
             }
         ).flow
 
-    fun getResponce(typeActor: ResponseTypeActor){
-        responsetype.value = typeActor
+    fun getSearch(text: String){
+        if (text == ""){
+            responsetype.value = ResponseTypeActor.POPULAR_ACTORS
+        }else{
+            _text.value = text
+        }
     }
+
+    fun getResponse(type: ResponseTypeActor){
+        responsetype.value = type
+    }
+
 
     init {
         responsetype.value = ResponseTypeActor.POPULAR_ACTORS
     }
 
-
+    init {
+        _text.value = ""
+    }
 
 
 }

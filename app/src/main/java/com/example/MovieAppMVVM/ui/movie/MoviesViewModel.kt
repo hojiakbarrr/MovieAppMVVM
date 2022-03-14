@@ -1,5 +1,8 @@
 package com.example.MovieAppMVVM.ui.movie
 
+import android.content.Context
+import android.widget.ArrayAdapter
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
 import androidx.paging.*
 import com.example.MovieAppMVVM.api.ApiService
@@ -10,6 +13,7 @@ import com.example.MovieAppMVVM.paging.MoviePagingSource
 import com.example.MovieAppMVVM.paging.ResponseType
 import com.example.MovieAppMVVM.repository.MovieRepository
 import com.example.MovieAppMVVM.utils.Constants
+import com.google.android.material.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -20,10 +24,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(private val apiService: ApiService) : ViewModel() {
 
+
+
     private val _responseType: MutableLiveData<ResponseType> = MutableLiveData()
+    private val _text: MutableLiveData<String> = MutableLiveData()
 
 
-    val movieFlow: Flow<PagingData<Movie>> by lazy {
+    val movieFlow  :  Flow<PagingData<Movie>> by lazy {
         _responseType.asFlow()
             .flatMapLatest<ResponseType?, PagingData<Movie>> {
                 createPagerMovies()
@@ -38,7 +45,7 @@ class MoviesViewModel @Inject constructor(private val apiService: ApiService) : 
             ),
             pagingSourceFactory = {
                 MoviePagingSource(apiService = apiService,
-                    responseType = _responseType.value!!, query = "")
+                    responseType = _responseType.value!!, query = _text.value!!)
             }
         ).flow
 
@@ -47,9 +54,19 @@ class MoviesViewModel @Inject constructor(private val apiService: ApiService) : 
         _responseType.value = type
     }
 
-    init {
-        _responseType.value = ResponseType.POPULAR
+    fun getSearch(text: String){
+        _text.value = text
     }
+
+//    init {             заменил в спиннере где ничего не выбирается поэтому закоменнтировал
+//        _responseType.value = ResponseType.POPULAR
+//    }
+
+    init {
+        _text.value = ""
+    }
+
+
 
 
 }
